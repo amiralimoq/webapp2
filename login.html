@@ -1,0 +1,64 @@
+<!-- فقط قسمت Script را تغییر دهید، بقیه فایل مثل قبل است -->
+<script>
+    // تنظیمات Supabase
+    const SUPABASE_URL = 'https://ducmehygksmijtynfuzt.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR1Y21laHlna3NtaWp0eW5mdXp0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU2NTgyNTQsImV4cCI6MjA4MTIzNDI1NH0.Zo0RTm5fPn-sA6AkqSIPCCiehn8iW2Ou4I26HnC2CfU';
+
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    async function handleLogin() {
+        const user = document.getElementById('username').value.trim();
+        const pass = document.getElementById('password').value.trim();
+        const errorMsg = document.getElementById('error-msg');
+        const btn = document.getElementById('login-btn');
+
+        errorMsg.style.display = 'none';
+
+        if(!user || !pass) {
+            errorMsg.innerText = "Please fill all fields.";
+            errorMsg.style.display = 'block';
+            return;
+        }
+
+        btn.innerText = "Verifying...";
+        btn.disabled = true;
+
+        try {
+            // --- تغییر مهم: استفاده از RPC (فراخوانی تابع دیتابیس) ---
+            const { data, error } = await supabaseClient.rpc('check_credentials', {
+                my_username: user,
+                my_password: pass
+            });
+
+            if (error) throw error;
+
+            // بررسی نتیجه تابع
+            if (data === 'admin') {
+                sessionStorage.setItem('role', 'admin');
+                window.location.href = 'admin.html';
+            } 
+            else if (data === 'kitchen') {
+                sessionStorage.setItem('role', 'kitchen');
+                sessionStorage.setItem('isLoggedIn', 'true');
+                window.location.href = 'kitchen.html';
+            } 
+            else {
+                // اگر data === 'invalid'
+                errorMsg.innerText = "Invalid Username or Password!";
+                errorMsg.style.display = 'block';
+            }
+
+        } catch (err) {
+            console.error(err);
+            errorMsg.innerText = "Connection Error.";
+            errorMsg.style.display = 'block';
+        } finally {
+            btn.innerText = "Login to System";
+            btn.disabled = false;
+        }
+    }
+
+    document.addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') handleLogin();
+    });
+</script>
