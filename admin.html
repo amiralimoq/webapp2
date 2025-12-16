@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel</title>
+    <title>Restaurant Admin Panel</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
     <link rel="stylesheet" href="menu.css">
@@ -153,4 +153,48 @@
                     <div class="nav-tab" onclick="quickReport(7)">7 Days</div>
                     <div class="nav-tab" onclick="quickReport(30)">1 Month</div>
                     <div class="nav-tab" onclick="quickReport(90)">3 Months</div>
-                    <div class="nav-tab" onclick="qu
+                    <div class="nav-tab" onclick="quickReport(180)">6 Months</div>
+                    <div class="nav-tab" onclick="quickReport(365)">1 Year</div>
+                </div>
+
+                <div class="form-container">
+                    <h5 style="margin-bottom: 15px;">Custom Date Range</h5>
+                    <div style="display: flex; gap: 15px; align-items: flex-end;">
+                        <div style="flex: 1;">
+                            <label>Start Date</label>
+                            <input type="date" id="start-date" class="form-control">
+                        </div>
+                        <div style="flex: 1;">
+                            <label>End Date</label>
+                            <input type="date" id="end-date" class="form-control">
+                        </div>
+                        <button class="btn-add" id="filter-report-btn" style="height: 48px;">Check Report</button>
+                    </div>
+                </div>
+
+                <!-- نمایش نتیجه گزارش -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: #E9FBF0; color: #2ECC71;"><i class="ri-file-list-3-line"></i></div>
+                        <div><div style="color: #888; font-size: 12px;">Orders in Range</div><h3 id="report-orders">0</h3></div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: #FFF0EB; color: #FF724C;"><i class="ri-money-dollar-circle-line"></i></div>
+                        <div><div style="color: #888; font-size: 12px;">Revenue in Range</div><h3 id="report-revenue">$0</h3></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION 4: MESSAGES -->
+            <div id="messages" class="content-section">
+                <div class="section-title"><i class="ri-mail-line"></i> Messages & Notifications</div>
+                <div class="data-table" id="messages-container">
+                    <p style="color: #aaa; padding: 10px;">Loading messages...</p>
+                </div>
+            </div>
+
+        </main>
+    </div>
+    <script src="admin.js"></script>
+</body>
+</html>
